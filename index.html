@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MoneyWise V8 — Finance Research Workspace</title>
+  <meta name="description" content="MoneyWise V8 is a professional browser-based finance research workspace." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="icon-btn" id="sidebarToggle">☰</button>
+        <a class="brand" href="#"><span class="brand-mark">MW</span><span><strong>MoneyWise</strong><small>V8 Workspace</small></span></a>
+      </div>
+      <button class="search-trigger" id="globalSearchTrigger">⌕ Search companies, notes, prompts, commands... <kbd>Ctrl K</kbd></button>
+      <div class="topbar-actions">
+        <button class="primary-btn" id="newResearchBtn">+ New Research</button>
+        <button class="icon-btn" id="moneyBotTopBtn">🤖</button>
+        <button class="icon-btn" id="themeToggle">◐</button>
+        <button class="profile-chip">S</button>
+      </div>
+    </header>
+
+    <main class="workspace-layout">
+      <aside class="sidebar" id="sidebar">
+        <p class="sidebar-title">Navigation</p>
+        <nav class="sidebar-nav">
+          <button class="nav-item active">🏠 Dashboard</button>
+          <button class="nav-item">📊 Research</button>
+          <button class="nav-item">🌍 Markets</button>
+          <button class="nav-item">⚖️ Compare</button>
+          <button class="nav-item">💼 Workspace</button>
+          <button class="nav-item">🤖 MoneyBot</button>
+          <button class="nav-item">⭐ Watchlist</button>
+          <button class="nav-item">⚙️ Settings</button>
+        </nav>
+
+        <div class="divider"></div>
+        <p class="sidebar-title">Market Snapshot</p>
+        <div class="market-card"><span>NIFTY 50</span><strong>24,850.30</strong><small class="positive">+0.84%</small></div>
+        <div class="market-card"><span>SENSEX</span><strong>81,420.11</strong><small class="positive">+0.71%</small></div>
+        <div class="market-card"><span>INDIA VIX</span><strong>13.82</strong><small class="negative">-1.24%</small></div>
+
+        <div class="divider"></div>
+        <p class="sidebar-title">Quick Actions</p>
+        <button class="quick-action">+ New Company Research</button>
+        <button class="quick-action">+ Compare Companies</button>
+        <button class="quick-action">+ Create Research Note</button>
+        <button class="quick-action">+ Open MoneyBot</button>
+      </aside>
+
+      <section class="workspace">
+        <header class="workspace-header">
+          <div><h1>Research Workspace</h1><p>Research companies, compare businesses, organise notes, and build long-term investment knowledge.</p></div>
+          <div class="button-row"><button class="secondary-btn">Import</button><button class="secondary-btn">Export</button><button class="primary-btn">+ New Workspace</button></div>
+        </header>
+
+        <div class="editor-tabs">
+          <button class="editor-tab active">Maruti Suzuki ×</button><button class="editor-tab">Reliance ×</button><button class="editor-tab">TCS ×</button><button class="editor-tab">Infosys ×</button><button class="editor-tab add-tab">+</button>
+        </div>
+
+        <section class="company-header-card">
+          <div class="company-left"><div class="company-logo">MS</div><div><h2>Maruti Suzuki India Ltd.</h2><div class="badges"><span>Automobile</span><span>Large Cap</span><span>NSE: MARUTI</span></div></div></div>
+          <div class="company-right"><small>Current Price</small><strong>₹13,450.20</strong><span class="positive">▲ +1.42%</span><div class="button-row"><button class="secondary-btn">☆ Pin</button><button class="secondary-btn">Compare</button><button class="primary-btn">Open MoneyBot</button></div></div>
+        </section>
+
+        <section class="research-grid">
+          <article class="panel span-2"><div class="panel-header"><h3>Company Overview</h3><button>View Full</button></div><p>Maruti Suzuki India Limited is India's largest passenger vehicle manufacturer. This dashboard is static demo content for research and education. Verify data from annual reports, investor presentations, quarterly results and exchange filings.</p><div class="tag-row"><span>Passenger Vehicles</span><span>Manufacturing</span><span>Exports</span><span>Hybrid Vehicles</span></div></article>
+          <article class="panel"><div class="panel-header"><h3>Key Metrics</h3></div><div class="metrics-grid"><div><small>Market Cap</small><strong>₹4.2T</strong></div><div><small>P/E</small><strong>29.4</strong></div><div><small>ROE</small><strong>17.9%</strong></div><div><small>Debt/Equity</small><strong>0.00</strong></div></div></article>
+          <article class="panel"><div class="panel-header"><h3>Financial Health</h3></div><div class="health-row"><span>Revenue Growth</span><b class="positive">Healthy</b></div><div class="health-row"><span>Profitability</span><b class="positive">Strong</b></div><div class="health-row"><span>Debt Position</span><b class="positive">Very Low</b></div><div class="health-row"><span>Cash Flow</span><b>Stable</b></div></article>
+          <article class="panel"><h3>Business Model</h3><p>The company earns revenue through vehicle sales, spare parts, accessories, servicing, exports and partnerships.</p></article>
+          <article class="panel"><h3>Strengths</h3><ul><li>Large market share in India.</li><li>Strong service network.</li><li>Strong brand recall.</li><li>Healthy balance sheet.</li></ul></article>
+          <article class="panel"><h3>Risks</h3><ul><li>High competition in SUV and EV segments.</li><li>Commodity price fluctuations.</li><li>Regulatory changes.</li><li>Demand slowdown.</li></ul></article>
+          <article class="panel span-2"><h3>Investor Questions</h3><ul class="columns"><li>How does the company generate revenue?</li><li>Is revenue growing consistently?</li><li>How strong is the balance sheet?</li><li>What are long-term risks?</li><li>Are growth plans realistic?</li><li>What should be verified from filings?</li></ul></article>
+        </section>
+      </section>
+
+      <aside class="right-sidebar">
+        <section class="side-panel"><h3>Workspace</h3><button>⭐ Favorites <span>12</span></button><button>🕒 History <span>58</span></button><button>📌 Pinned Companies <span>8</span></button><button>📂 Collections <span>5</span></button><button>📝 Research Notes <span>24</span></button><button>🤖 Saved Prompts <span>18</span></button></section>
+        <section class="side-panel"><h3>MoneyBot</h3><button class="bot-prompt">Research Company</button><button class="bot-prompt">Explain Ratio</button><button class="bot-prompt">SWOT Analysis</button><button class="bot-prompt">Beginner Summary</button></section>
+        <section class="side-panel"><h3>Research Progress</h3><div class="progress"><span style="width:82%"></span></div><small>Financial Analysis 82%</small></section>
+      </aside>
+    </main>
+  </div>
+
+  <div class="command-palette hidden" id="commandPalette"><div class="command-window"><input id="commandInput" placeholder="Search commands..."/><button>📊 Research Company</button><button>⚖️ Compare Companies</button><button>🤖 Open MoneyBot</button><button>📝 Create Research Note</button></div></div>
+  <div id="toastContainer" class="toast-container"></div>
+  <script src="script.js"></script>
+</body>
+</html>
