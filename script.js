@@ -2564,7 +2564,90 @@ function handleResize() {
 }
 
 window.addEventListener("resize", handleResize);
+function cacheMoneyBotNotesDom() {
+    dom.promptTemplateGrid = document.getElementById("promptTemplateGrid");
+    dom.promptEditor = document.getElementById("promptEditor");
+    dom.copyPromptButton = document.getElementById("copyPromptButton");
+    dom.savePromptButton = document.getElementById("savePromptButton");
+    dom.notesList = document.getElementById("notesList");
 
+    dom.copyPromptButton?.addEventListener("click", copyPrompt);
+    dom.savePromptButton?.addEventListener("click", savePromptAsNote);
+}
+
+function renderMoneyBot() {
+    if (!dom.promptTemplateGrid) return;
+
+    dom.promptTemplateGrid.innerHTML = promptTemplates.map(template => `
+        <button class="prompt-template-card" type="button" data-template-id="${escapeHtml(template.id)}">
+            <strong>${escapeHtml(template.title)}</strong>
+            <span>${escapeHtml(template.description)}</span>
+        </button>
+    `).join("");
+
+    dom.promptTemplateGrid.querySelectorAll("[data-template-id]").forEach(button => {
+        button.addEventListener("click", () => fillPromptTemplate(button.dataset.templateId));
+    });
+}
+
+function fillPromptTemplate(templateId) {
+    const template = promptTemplates.find(t => t.id === templateId);
+    const company = getActiveCompany();
+    const companyName = company ? company.name : "Selected Company";
+
+    if (!template || !dom.promptEditor) return;
+
+    dom.promptEditor.value = template.prompt.replaceAll("{{company}}", companyName);
+
+    showToast("Prompt loaded", template.title, "🤖");
+}
+
+function fillPromptForCompany(templateId, companyId) {
+    const template = promptTemplates.find(t => t.id === templateId);
+    const company = getCompanyById(companyId);
+
+    if (!template || !company || !dom.promptEditor) return;
+
+    dom.promptEditor.value = template.prompt.replaceAll("{{company}}", company.name);
+}
+
+async function copyPrompt() {
+    const text = dom.promptEditor?.value.trim();
+
+    if (!text) {
+        showToast("Nothing to copy", "Choose a prompt first.", "⚠️");
+        return;
+    }
+
+    await navigator.clipboard.writeText(text);
+    showToast("Prompt copied", "Prompt copied to clipboard.", "📋");
+}
+
+function savePromptAsNote() {
+    const text = dom.promptEditor?.value.trim();
+
+    if (!text) {
+        showToast("Nothing to save", "Choose a prompt first.", "⚠️");
+        return;
+    }
+
+    state.notes.unshift({
+        id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
+        title: "MoneyBot Prompt",
+        companyId: state.activeCompanyId || "",
+        body: text,
+        createdAt: formatDateTime()
+    });
+
+    saveState();
+    renderAll();
+
+    showToast("Prompt saved", "Saved as note.", "📝");
+}
+
+function renderNotes() {
+    if (!dom.notesList) return;
+}
 /* ==========================================================
    Final Render Function
 ========================================================== */
