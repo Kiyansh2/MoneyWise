@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>MoneyWise V8</title>
+
+  <meta
+    name="description"
+    content="MoneyWise V8 is a browser-based financial research workspace for company research, notes, comparison, and learning."
+  />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="app" id="app">
+
+    <!-- Top Bar -->
+    <header class="topbar">
+
+      <div class="topbar-left">
+        <button
+          class="icon-button"
+          id="sidebarToggle"
+          type="button"
+          aria-label="Toggle sidebar"
+        >
+          ☰
+        </button>
+
+        <a class="brand" href="#" aria-label="MoneyWise home">
+          <span class="brand-logo">MW</span>
+
+          <span class="brand-copy">
+            <strong>MoneyWise</strong>
+            <small>V8 Research Workspace</small>
+          </span>
+        </a>
+      </div>
+
+      <div class="topbar-center">
+        <button
+          class="global-search-button"
+          id="openSearchButton"
+          type="button"
+        >
+          <span>Search companies, notes, prompts, commands...</span>
+          <kbd>Ctrl K</kbd>
+        </button>
+      </div>
+
+      <div class="topbar-right">
+        <button
+          class="primary-button"
+          id="newResearchButton"
+          type="button"
+        >
+          + New Research
+        </button>
+
+        <button
+          class="icon-button"
+          id="openMoneyBotButton"
+          type="button"
+          aria-label="Open MoneyBot"
+        >
+          🤖
+        </button>
+
+        <button
+          class="icon-button"
+          id="themeToggle"
+          type="button"
+          aria-label="Toggle theme"
+        >
+          ◐
+        </button>
+
+        <button
+          class="profile-button"
+          type="button"
+          aria-label="Profile"
+        >
+          S
+        </button>
+      </div>
+
+    </header>
+
+    <!-- Main App Layout -->
+    <div class="app-layout">
+      <!-- Sidebar -->
+      <aside class="sidebar" id="sidebar">
+
+        <div class="sidebar-block">
+          <p class="sidebar-label">Navigation</p>
+
+          <nav class="sidebar-nav" aria-label="Main navigation">
+            <button class="nav-item active" type="button" data-view="dashboard">
+              <span>🏠</span>
+              <strong>Dashboard</strong>
+            </button>
+
+            <button class="nav-item" type="button" data-view="research">
+              <span>📊</span>
+              <strong>Research</strong>
+            </button>
+
+            <button class="nav-item" type="button" data-view="compare">
+              <span>⚖️</span>
+              <strong>Compare</strong>
+            </button>
+
+            <button class="nav-item" type="button" data-view="workspace">
+              <span>💼</span>
+              <strong>Workspace</strong>
+            </button>
+
+            <button class="nav-item" type="button" data-view="moneybot">
+              <span>🤖</span>
+              <strong>MoneyBot</strong>
+            </button>
+
+            <button class="nav-item" type="button" data-view="notes">
+              <span>📝</span>
+              <strong>Notes</strong>
+            </button>
+
+            <button class="nav-item" type="button" data-view="settings">
+              <span>⚙️</span>
+              <strong>Settings</strong>
+            </button>
+          </nav>
+        </div>
+
+        <div class="sidebar-block">
+          <p class="sidebar-label">Workspace</p>
+
+          <button class="workspace-link" type="button" data-workspace="favorites">
+            <span>⭐ Favorites</span>
+            <strong id="favoritesCount">0</strong>
+          </button>
+
+          <button class="workspace-link" type="button" data-workspace="history">
+            <span>🕒 History</span>
+            <strong id="historyCount">0</strong>
+          </button>
+
+          <button class="workspace-link" type="button" data-workspace="pinned">
+            <span>📌 Pinned</span>
+            <strong id="pinnedCount">0</strong>
+          </button>
+
+          <button class="workspace-link" type="button" data-workspace="collections">
+            <span>📂 Collections</span>
+            <strong id="collectionsCount">0</strong>
+          </button>
+
+          <button class="workspace-link" type="button" data-workspace="notes">
+            <span>📝 Notes</span>
+            <strong id="notesCount">0</strong>
+          </button>
+        </div>
+
+        <div class="sidebar-block sidebar-footer-card">
+          <p class="sidebar-label">Local Mode</p>
+
+          <p>
+            MoneyWise V8 currently saves your workspace in this browser using local storage.
+          </p>
+        </div>
+
+      </aside>
+      <!-- Main Content -->
+      <main class="main-content" id="mainContent">
+
+        <!-- Dashboard View -->
+        <section
+          class="view active-view"
+          id="dashboardView"
+          data-view="dashboard"
+        >
+
+          <div class="view-header">
+            <div>
+              <p class="eyebrow">MoneyWise V8</p>
+
+              <h1>Research Dashboard</h1>
+
+              <p class="view-subtitle">
+                A clean workspace for tracking companies, saving notes, comparing fundamentals,
+                and building better financial understanding.
+              </p>
+            </div>
+
+            <div class="view-actions">
+              <button
+                class="secondary-button"
+                id="dashboardAddCompanyButton"
+                type="button"
+              >
+                + Add Company
+              </button>
+
+              <button
+                class="primary-button"
+                id="dashboardOpenResearchButton"
+                type="button"
+              >
+                Open Research
+              </button>
+            </div>
+          </div>
+
+          <!-- Dashboard Stats -->
+          <section
+            class="stats-grid"
+            aria-label="Workspace summary"
+          >
+
+            <article class="stat-card">
+              <div class="stat-icon">📊</div>
+
+              <div>
+                <span>Companies</span>
+                <strong id="statCompanies">0</strong>
+              </div>
+            </article>
+
+            <article class="stat-card">
+              <div class="stat-icon">⭐</div>
+
+              <div>
+                <span>Favorites</span>
+                <strong id="statFavorites">0</strong>
+              </div>
+            </article>
+
+            <article class="stat-card">
+              <div class="stat-icon">⚖️</div>
+
+              <div>
+                <span>Compare Basket</span>
+                <strong id="statCompare">0</strong>
+              </div>
+            </article>
+
+            <article class="stat-card">
+              <div class="stat-icon">📝</div>
+
+              <div>
+                <span>Research Notes</span>
+                <strong id="statNotes">0</strong>
+              </div>
+            </article>
+
+          </section>
+
+          <!-- Dashboard Layout -->
+          <section class="dashboard-layout">
+
+            <!-- Featured Companies -->
+            <article class="panel dashboard-panel dashboard-panel-large">
+              <div class="panel-header">
+                <div>
+                  <h2>Featured Companies</h2>
+
+                  <p>
+                    Select a company to open its research workspace.
+                  </p>
+                </div>
+
+                <button
+                  class="panel-action"
+                  id="refreshCompaniesButton"
+                  type="button"
+                >
+                  Refresh
+                </button>
+              </div>
+
+              <div
+                class="company-grid"
+                id="featuredCompaniesGrid"
+                aria-live="polite"
+              ></div>
+            </article>
+
+            <!-- Active Research -->
+            <article class="panel dashboard-panel">
+              <div class="panel-header">
+                <div>
+                  <h2>Active Research</h2>
+
+                  <p>
+                    Your currently selected research file.
+                  </p>
+                </div>
+              </div>
+
+              <div class="active-research-card">
+                <div class="active-research-top">
+                  <div
+                    class="company-avatar"
+                    id="activeCompanyAvatar"
+                  >
+                    MW
+                  </div>
+
+                  <div>
+                    <h3 id="activeCompanyName">
+                      No company selected
+                    </h3>
+
+                    <p id="activeCompanyDescription">
+                      Choose a company from the dashboard to begin.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="active-research-meta">
+                  <div>
+                    <span>Sector</span>
+                    <strong id="activeCompanySector">—</strong>
+                  </div>
+
+                  <div>
+                    <span>Type</span>
+                    <strong id="activeCompanyType">—</strong>
+                  </div>
+                </div>
+
+                <div class="active-research-actions">
+                  <button
+                    class="primary-button full-width"
+                    id="openSelectedResearchButton"
+                    type="button"
+                  >
+                    Open Full Research
+                  </button>
+
+                  <button
+                    class="secondary-button full-width"
+                    id="addSelectedToCompareButton"
+                    type="button"
+                  >
+                    Add to Compare
+                  </button>
+
+                  <button
+                    class="secondary-button full-width"
+                    id="favoriteSelectedButton"
+                    type="button"
+                  >
+                    Add to Favorites
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- Recent Activity -->
+            <article class="panel dashboard-panel">
+              <div class="panel-header">
+                <div>
+                  <h2>Recent Activity</h2>
+
+                  <p>
+                    Your latest local actions.
+                  </p>
+                </div>
+
+                <button
+                  class="panel-action"
+                  id="clearActivityButton"
+                  type="button"
+                >
+                  Clear
+                </button>
+              </div>
+
+              <div
+                class="activity-list"
+                id="activityList"
+                aria-live="polite"
+              ></div>
+            </article>
+
+            <!-- Beginner Research Flow -->
+            <article class="panel dashboard-panel dashboard-panel-large">
+              <div class="panel-header">
+                <div>
+                  <h2>Beginner Research Flow</h2>
+
+                  <p>
+                    Follow a simple structure before forming any opinion.
+                  </p>
+                </div>
+              </div>
+
+              <div class="research-flow">
+                <button
+                  class="flow-step"
+                  type="button"
+                  data-flow-step="overview"
+                >
+                  <span>01</span>
+
+                  <div>
+                    <strong>Understand the business</strong>
+                    <p>What does the company actually do?</p>
+                  </div>
+                </button>
+
+                <button
+                  class="flow-step"
+                  type="button"
+                  data-flow-step="revenue"
+                >
+                  <span>02</span>
+
+                  <div>
+                    <strong>Study revenue sources</strong>
+                    <p>Where does the money come from?</p>
+                  </div>
+                </button>
+
+                <button
+                  class="flow-step"
+                  type="button"
+                  data-flow-step="profitability"
+                >
+                  <span>03</span>
+
+                  <div>
+                    <strong>Check profitability</strong>
+                    <p>Is the company converting sales into profit?</p>
+                  </div>
+                </button>
+
+                <button
+                  class="flow-step"
+                  type="button"
+                  data-flow-step="debt"
+                >
+                  <span>04</span>
+
+                  <div>
+                    <strong>Review debt position</strong>
+                    <p>Is debt manageable or risky?</p>
+                  </div>
+                </button>
+
+                <button
+                  class="flow-step"
+                  type="button"
+                  data-flow-step="cashflow"
+                >
+                  <span>05</span>
+
+                  <div>
+                    <strong>Look at cash flow</strong>
+                    <p>Is the business generating real cash?</p>
+                  </div>
+                </button>
+
+                <button
+                  class="flow-step"
+                  type="button"
+                  data-flow-step="risks"
+                >
+                  <span>06</span>
+
+                  <div>
+                    <strong>Write down risks</strong>
+                    <p>What can go wrong?</p>
+                  </div>
+                </button>
+              </div>
+            </article>
+
+          </section>
+
+        </section>
+        <!-- =========================================
+                    RESEARCH VIEW
+        ========================================== -->
+
+        <section
+            class="view"
+            id="researchView"
+            data-view="research">
+
+            <div class="view-header">
+
+                <div>
+
+                    <p class="eyebrow">
+                        Company Research
+                    </p>
+
+                    <h1 id="researchCompanyTitle">
+                        Select a Company
+                    </h1>
+
+                    <p
+                        class="view-subtitle"
+                        id="researchCompanySubtitle">
+
+                        Choose a company from your workspace to begin detailed research.
+
+                    </p>
+
+                </div>
+
+                <div class="view-actions">
+
+                    <button
+                        class="secondary-button"
+                        id="pinCompanyButton"
+                        type="button">
+
+                        📌 Pin
+
+                    </button>
+
+                    <button
+                        class="secondary-button"
+                        id="favoriteCompanyButton"
+                        type="button">
+
+                        ⭐ Favorite
+
+                    </button>
+
+                    <button
+                        class="primary-button"
+                        id="moneyBotResearchButton"
+                        type="button">
+
+                        Open in MoneyBot
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- ===========================
+                    RESEARCH TABS
+            ============================ -->
+
+            <nav
+                class="research-tabs"
+                id="researchTabs">
+
+                <button
+                    class="research-tab active"
+                    data-tab="overview">
+
+                    Overview
+
+                </button>
+
+                <button
+                    class="research-tab"
+                    data-tab="business">
+
+                    Business
+
+                </button>
+
+                <button
+                    class="research-tab"
+                    data-tab="financials">
+
+                    Financials
+
+                </button>
+
+                <button
+                    class="research-tab"
+                    data-tab="ratios">
+
+                    Ratios
+
+                </button>
+
+                <button
+                    class="research-tab"
+                    data-tab="risks">
+
+                    Risks
+
+                </button>
+
+                <button
+                    class="research-tab"
+                    data-tab="news">
+
+                    News
+
+                </button>
+
+                <button
+                    class="research-tab"
+                    data-tab="notes">
+
+                    Notes
+
+                </button>
+
+            </nav>
+
+
+            <!-- ===========================
+                    CONTENT GRID
+            ============================ -->
+
+            <section class="research-grid">
+
+
+                <!-- LEFT COLUMN -->
+
+                <article class="panel large-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <h2 id="sectionTitle">
+
+                                Company Overview
+
+                            </h2>
+
+                            <p>
+
+                                A quick summary of the selected company.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div
+                        id="researchContent"
+                        class="panel-content">
+
+                        <div class="empty-state">
+
+                            <div class="empty-icon">
+
+                                📊
+
+                            </div>
+
+                            <h3>
+
+                                No Company Selected
+
+                            </h3>
+
+                            <p>
+
+                                Select a company from your dashboard or workspace
+                                to start researching.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- RIGHT COLUMN -->
+
+                <aside class="research-sidebar">
+
+
+                    <!-- Quick Facts -->
+
+                    <article class="panel">
+
+                        <div class="panel-header">
+
+                            <h2>
+
+                                Quick Facts
+
+                            </h2>
+
+                        </div>
+
+                        <div
+                            id="quickFacts"
+                            class="facts-list">
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- Key Metrics -->
+
+                    <article class="panel">
+
+                        <div class="panel-header">
+
+                            <h2>
+
+                                Key Metrics
+
+                            </h2>
+
+                        </div>
+
+                        <div
+                            id="keyMetrics"
+                            class="metrics-list">
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- Documents -->
+
+                    <article class="panel">
+
+                        <div class="panel-header">
+
+                            <h2>
+
+                                Important Documents
+
+                            </h2>
+
+                        </div>
+
+                        <div class="document-links">
+
+                            <button
+                                class="document-button"
+                                data-document="annual">
+
+                                📘 Annual Report
+
+                            </button>
+
+                            <button
+                                class="document-button"
+                                data-document="presentation">
+
+                                📊 Investor Presentation
+
+                            </button>
+
+                            <button
+                                class="document-button"
+                                data-document="results">
+
+                                📑 Quarterly Results
+
+                            </button>
+
+                            <button
+                                class="document-button"
+                                data-document="filings">
+
+                                🏛 Exchange Filings
+
+                            </button>
+
+                        </div>
+
+                    </article>
+
+                </aside>
+
+            </section>
+
+        </section>
+        <!-- =========================================
+                    COMPARE VIEW
+        ========================================== -->
+
+        <section
+          class="view"
+          id="compareView"
+          data-view="compare"
+        >
+
+          <div class="view-header">
+            <div>
+              <p class="eyebrow">Company Comparison</p>
+
+              <h1>Compare Companies</h1>
+
+              <p class="view-subtitle">
+                Compare selected companies side by side using simple beginner-friendly sections.
+              </p>
+            </div>
+
+            <div class="view-actions">
+              <button
+                class="secondary-button"
+                id="clearCompareButton"
+                type="button"
+              >
+                Clear Compare
+              </button>
+
+              <button
+                class="primary-button"
+                id="compareAddCompanyButton"
+                type="button"
+              >
+                + Add Company
+              </button>
+            </div>
+          </div>
+
+          <section class="compare-layout">
+
+            <article class="panel compare-panel">
+              <div class="panel-header">
+                <div>
+                  <h2>Compare Basket</h2>
+                  <p>Companies you selected for comparison.</p>
+                </div>
+              </div>
+
+              <div
+                class="compare-basket"
+                id="compareBasket"
+              ></div>
+            </article>
+
+            <article class="panel compare-panel compare-panel-large">
+              <div class="panel-header">
+                <div>
+                  <h2>Comparison Table</h2>
+                  <p>Simple comparison across business, financial and risk factors.</p>
+                </div>
+              </div>
+
+              <div
+                class="compare-table-wrap"
+                id="compareTableWrap"
+              >
+                <div class="empty-state">
+                  <div class="empty-icon">⚖️</div>
+
+                  <h3>No companies selected</h3>
+
+                  <p>
+                    Add two or more companies to start comparing them.
+                  </p>
+                </div>
+              </div>
+            </article>
+
+          </section>
+
+        </section>
+
+
+        <!-- =========================================
+                    WORKSPACE VIEW
+        ========================================== -->
+
+        <section
+          class="view"
+          id="workspaceView"
+          data-view="workspace"
+        >
+
+          <div class="view-header">
+            <div>
+              <p class="eyebrow">Personal Workspace</p>
+
+              <h1>Workspace</h1>
+
+              <p class="view-subtitle">
+                Your saved companies, favorites, pinned items, history, collections and notes.
+              </p>
+            </div>
+
+            <div class="view-actions">
+              <button
+                class="secondary-button"
+                id="newCollectionButton"
+                type="button"
+              >
+                + New Collection
+              </button>
+
+              <button
+                class="primary-button"
+                id="newNoteButton"
+                type="button"
+              >
+                + New Note
+              </button>
+            </div>
+          </div>
+
+          <section class="workspace-grid">
+
+            <article class="panel">
+              <div class="panel-header">
+                <div>
+                  <h2>Favorites</h2>
+                  <p>Companies you want to revisit quickly.</p>
+                </div>
+              </div>
+
+              <div
+                class="mini-list"
+                id="favoritesList"
+              ></div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-header">
+                <div>
+                  <h2>Pinned Companies</h2>
+                  <p>Companies pinned to your research workspace.</p>
+                </div>
+              </div>
+
+              <div
+                class="mini-list"
+                id="pinnedList"
+              ></div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-header">
+                <div>
+                  <h2>History</h2>
+                  <p>Recently opened companies and actions.</p>
+                </div>
+              </div>
+
+              <div
+                class="mini-list"
+                id="historyList"
+              ></div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-header">
+                <div>
+                  <h2>Collections</h2>
+                  <p>Group companies by theme, sector or strategy.</p>
+                </div>
+              </div>
+
+              <div
+                class="mini-list"
+                id="collectionsList"
+              ></div>
+            </article>
+
+          </section>
+
+        </section>
+        <!-- =========================================
+                    MONEYBOT VIEW
+        ========================================== -->
+
+        <section
+          class="view"
+          id="moneybotView"
+          data-view="moneybot"
+        >
+
+          <div class="view-header">
+            <div>
+              <p class="eyebrow">MoneyBot</p>
+
+              <h1>Prompt Workspace</h1>
+
+              <p class="view-subtitle">
+                Generate clean research prompts for company analysis, ratios, risks,
+                summaries and beginner explanations.
+              </p>
+            </div>
+
+            <div class="view-actions">
+              <button
+                class="secondary-button"
+                id="copyPromptButton"
+                type="button"
+              >
+                Copy Prompt
+              </button>
+
+              <button
+                class="primary-button"
+                id="savePromptButton"
+                type="button"
+              >
+                Save Prompt
+              </button>
+            </div>
+          </div>
+
+          <section class="moneybot-layout">
+
+            <article class="panel">
+              <div class="panel-header">
+                <div>
+                  <h2>Prompt Templates</h2>
+                  <p>Choose a template. It will fill the prompt editor.</p>
+                </div>
+              </div>
+
+              <div
+                class="prompt-template-grid"
+                id="promptTemplateGrid"
+              ></div>
+            </article>
+
+            <article class="panel moneybot-editor-panel">
+              <div class="panel-header">
+                <div>
+                  <h2>Prompt Editor</h2>
+                  <p>Edit before copying or saving.</p>
+                </div>
+              </div>
+
+              <textarea
+                id="promptEditor"
+                class="prompt-editor"
+                placeholder="Choose a template or write your own MoneyBot prompt..."
+              ></textarea>
+            </article>
+
+          </section>
+
+        </section>
+
+
+        <!-- =========================================
+                    NOTES VIEW
+        ========================================== -->
+
+        <section
+          class="view"
+          id="notesView"
+          data-view="notes"
+        >
+
+          <div class="view-header">
+            <div>
+              <p class="eyebrow">Research Notes</p>
+
+              <h1>Notes</h1>
+
+              <p class="view-subtitle">
+                Save simple research notes locally in your browser.
+              </p>
+            </div>
+
+            <div class="view-actions">
+              <button
+                class="secondary-button"
+                id="clearNoteFormButton"
+                type="button"
+              >
+                Clear
+              </button>
+
+              <button
+                class="primary-button"
+                id="saveNoteButton"
+                type="button"
+              >
+                Save Note
+              </button>
+            </div>
+          </div>
+
+          <section class="notes-layout">
+
+            <article class="panel note-editor-panel">
+              <div class="panel-header">
+                <div>
+                  <h2>New Note</h2>
+                  <p>Write a note linked to your current research.</p>
+                </div>
+              </div>
+
+              <div class="note-form">
+                <input
+                  id="noteTitleInput"
+                  class="text-input"
+                  type="text"
+                  placeholder="Note title"
+                />
+
+                <select
+                  id="noteCompanySelect"
+                  class="text-input"
+                >
+                  <option value="">General note</option>
+                </select>
+
+                <textarea
+                  id="noteBodyInput"
+                  class="note-editor"
+                  placeholder="Write your research note here..."
+                ></textarea>
+              </div>
+            </article>
+
+            <article class="panel saved-notes-panel">
+              <div class="panel-header">
+                <div>
+                  <h2>Saved Notes</h2>
+                  <p>Your notes will appear here.</p>
+                </div>
+              </div>
+
+              <div
+                class="notes-list"
+                id="notesList"
+              ></div>
+            </article>
+
+          </section>
+
+        </section>
+        <!-- =========================================
+                    SETTINGS VIEW
+        ========================================== -->
+
+        <section
+            class="view"
+            id="settingsView"
+            data-view="settings">
+
+            <div class="view-header">
+
+                <div>
+
+                    <p class="eyebrow">
+
+                        Settings
+
+                    </p>
+
+                    <h1>
+
+                        Preferences
+
+                    </h1>
+
+                    <p class="view-subtitle">
+
+                        Customize MoneyWise according to your workflow.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <section class="settings-grid">
+
+                <article class="panel">
+
+                    <div class="panel-header">
+
+                        <h2>
+
+                            Appearance
+
+                        </h2>
+
+                    </div>
+
+                    <div class="settings-group">
+
+                        <button
+                            id="lightThemeButton"
+                            class="settings-button">
+
+                            ☀️ Light Theme
+
+                        </button>
+
+                        <button
+                            id="darkThemeButton"
+                            class="settings-button">
+
+                            🌙 Dark Theme
+
+                        </button>
+
+                    </div>
+
+                </article>
+
+                <article class="panel">
+
+                    <div class="panel-header">
+
+                        <h2>
+
+                            Workspace
+
+                        </h2>
+
+                    </div>
+
+                    <div class="settings-group">
+
+                        <button
+                            id="backupWorkspaceButton"
+                            class="settings-button">
+
+                            Export Workspace
+
+                        </button>
+
+                        <button
+                            id="restoreWorkspaceButton"
+                            class="settings-button">
+
+                            Import Workspace
+
+                        </button>
+
+                        <button
+                            id="resetWorkspaceButton"
+                            class="danger-button">
+
+                            Reset Workspace
+
+                        </button>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+        </section>
+
+
+        <!-- =========================================
+                    GLOBAL SEARCH
+        ========================================== -->
+
+        <div
+            id="searchOverlay"
+            class="overlay hidden">
+
+            <div class="overlay-window">
+
+                <div class="overlay-header">
+
+                    <input
+                        id="overlaySearchInput"
+                        type="text"
+                        placeholder="Search anything...">
+
+                    <button
+                        id="closeSearchOverlay">
+
+                        ✕
+
+                    </button>
+
+                </div>
+
+                <div
+                    id="searchResults"
+                    class="overlay-content">
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================================
+                    ADD COMPANY MODAL
+        ========================================== -->
+
+        <div
+            id="addCompanyModal"
+            class="overlay hidden">
+
+            <div class="modal">
+
+                <div class="modal-header">
+
+                    <h2>
+
+                        Add Company
+
+                    </h2>
+
+                    <button
+                        id="closeCompanyModal">
+
+                        ✕
+
+                    </button>
+
+                </div>
+
+                <input
+                    id="companySearchInput"
+                    class="text-input"
+                    type="text"
+                    placeholder="Search company...">
+
+                <div
+                    id="companySearchResults"
+                    class="company-search-results">
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================================
+                    TOAST
+        ========================================== -->
+
+        <div
+            id="toastContainer"
+            class="toast-container">
+
+        </div>
+
+      </main>
+
+    </div>
+    <!-- =========================================
+                LOADING SCREEN
+    ========================================== -->
+
+    <div
+        id="loadingScreen"
+        class="loading-screen hidden">
+
+        <div class="loading-box">
+
+            <div class="loader"></div>
+
+            <h2>MoneyWise V8</h2>
+
+            <p>
+
+                Preparing your research workspace...
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+                APPLICATION SCRIPTS
+    ========================================== -->
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
